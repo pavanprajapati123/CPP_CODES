@@ -1,60 +1,51 @@
-//283 move Zeroes
 #include <iostream>
 #include <vector>
-#include <climits>
 using namespace std;
 
 class Solution {
 public:
-    int thirdMax(vector<int>& nums) {
+    vector<int> plusOne(vector<int>& digits) {
 
-        long long first = LLONG_MIN;
-        long long second = LLONG_MIN;
-        long long third = LLONG_MIN;
+        int n = digits.size();
 
-        for (int num : nums) {
+        for (int i = n - 1; i >= 0; i--) {
 
-            // Skip duplicate values
-            if (num == first || num == second || num == third)
-                continue;
-
-            if (num > first) {
-                third = second;
-                second = first;
-                first = num;
+            if (digits[i] < 9) {
+                digits[i]++;
+                return digits;
             }
-            else if (num > second) {
-                third = second;
-                second = num;
-            }
-            else if (num > third) {
-                third = num;
-            }
+
+            digits[i] = 0;
         }
 
-        return (third == LLONG_MIN) ? first : third;
+        digits.insert(digits.begin(), 1);
+
+        return digits;
     }
 };
 
 int main() {
 
     int n;
-
-    cout << "Enter size of array: ";
+    cout << "Enter number of digits: ";
     cin >> n;
 
-    vector<int> nums(n);
+    vector<int> digits(n);
 
-    cout << "Enter array elements: ";
+    cout << "Enter digits: ";
     for (int i = 0; i < n; i++) {
-        cin >> nums[i];
+        cin >> digits[i];
     }
 
     Solution obj;
+    vector<int> result = obj.plusOne(digits);
 
-    cout << "Third Maximum Number = "
-         << obj.thirdMax(nums)
-         << endl;
+    cout << "Result: ";
+    for (int digit : result) {
+        cout << digit << " ";
+    }
+
+    cout << endl;
 
     return 0;
 }
