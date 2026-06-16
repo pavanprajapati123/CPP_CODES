@@ -1,59 +1,73 @@
+// 88 (Merge Sorted Array)
 #include <iostream>
 #include <vector>
-#include <climits>
 using namespace std;
 
 class Solution {
 public:
-    int thirdMax(vector<int>& nums) {
+    void merge(vector<int>& nums1, int m,
+               vector<int>& nums2, int n) {
 
-        long long first = LLONG_MIN;
-        long long second = LLONG_MIN;
-        long long third = LLONG_MIN;
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
 
-        for (int num : nums) {
-
-            // Skip duplicate values
-            if (num == first || num == second || num == third)
-                continue;
-
-            if (num > first) {
-                third = second;
-                second = first;
-                first = num;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
             }
-            else if (num > second) {
-                third = second;
-                second = num;
+            else {
+                nums1[k] = nums2[j];
+                j--;
             }
-            else if (num > third) {
-                third = num;
-            }
+            k--;
         }
 
-        return (third == LLONG_MIN) ? first : third;
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            j--;
+            k--;
+        }
     }
 };
 
 int main() {
 
-    int n;
+    int m, n;
 
-    cout << "Enter size of array: ";
-    cin >> n;
+    cout << "Enter number of elements in nums1: ";
+    cin >> m;
 
-    vector<int> nums(n);
+    vector<int> nums1(m);
 
-    cout << "Enter array elements: ";
-    for (int i = 0; i < n; i++) {
-        cin >> nums[i];
+    cout << "Enter sorted elements of nums1: ";
+    for (int i = 0; i < m; i++) {
+        cin >> nums1[i];
     }
 
-    Solution obj;
+    cout << "Enter number of elements in nums2: ";
+    cin >> n;
 
-    cout << "Third Maximum Number = "
-         << obj.thirdMax(nums)
-         << endl;
+    vector<int> nums2(n);
+
+    cout << "Enter sorted elements of nums2: ";
+    for (int i = 0; i < n; i++) {
+        cin >> nums2[i];
+    }
+
+    // Resize nums1 to hold all elements
+    nums1.resize(m + n);
+
+    Solution obj;
+    obj.merge(nums1, m, nums2, n);
+
+    cout << "Merged Array: ";
+    for (int num : nums1) {
+        cout << num << " ";
+    }
+
+    cout << endl;
 
     return 0;
 }
