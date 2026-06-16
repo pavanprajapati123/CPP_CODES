@@ -1,39 +1,49 @@
+//414. Third Maximum Number
 #include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
-    void moveZeroes(vector<int>& nums) {
-        int j = 0;
+    vector<int> plusOne(vector<int>& digits) {
 
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] != 0) {
-                swap(nums[i], nums[j]);
-                j++;
+        int n = digits.size();
+
+        for (int i = n - 1; i >= 0; i--) {
+
+            if (digits[i] < 9) {
+                digits[i]++;
+                return digits;
             }
+
+            digits[i] = 0;
         }
+
+        digits.insert(digits.begin(), 1);
+
+        return digits;
     }
 };
 
 int main() {
+
     int n;
-    cout << "Enter size of array: ";
+    cout << "Enter number of digits: ";
     cin >> n;
 
-    vector<int> nums(n);
+    vector<int> digits(n);
 
-    cout << "Enter array elements: ";
+    cout << "Enter digits: ";
     for (int i = 0; i < n; i++) {
-        cin >> nums[i];
+        cin >> digits[i];
     }
 
     Solution obj;
-    obj.moveZeroes(nums);
+    vector<int> result = obj.plusOne(digits);
 
-    cout << "Array after moving zeroes: ";
-    for (int x : nums) {
-        cout << x << " ";
+    cout << "Result: ";
+    for (int digit : result) {
+        cout << digit << " ";
     }
 
     cout << endl;
